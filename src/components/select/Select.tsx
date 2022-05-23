@@ -6,29 +6,31 @@ import Option from "./option/Option";
 import styles from "./styles.module.scss";
 
 export type SelectRefType = { reset: () => void };
+export type OptionType = { value: string; label: string };
 
 interface SelectProps {
-  options: { value: string; label: string }[];
+  options: OptionType[];
   onChange?: (value: string) => void;
   selectWrapperClassName?: string;
   selectLabelClassName?: string;
   optionClassName?: string;
+  disabled?: (option: OptionType) => boolean;
 }
 
 const Select: React.ForwardRefRenderFunction<SelectRefType, SelectProps> = (props, ref) => {
-  const { options, onChange, selectWrapperClassName, optionClassName, selectLabelClassName } = props;
+  const { options, onChange, selectWrapperClassName, optionClassName, selectLabelClassName, disabled } = props;
   const [optionsVisible, setOptionsVisible] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState("");
 
   const handleSelectClick = useCallback(() => {
-    setOptionsVisible(true);
+    setOptionsVisible((prev) => !prev);
   }, []);
 
   const handleOptionClick = useCallback(
-    (payload: { value: string; label: string }) => {
-      onChange && onChange(payload.value);
+    (option: OptionType) => {
+      onChange && onChange(option.value);
       setOptionsVisible(false);
-      setSelectedLabel(payload.label);
+      setSelectedLabel(option.label);
     },
     [onChange],
   );
@@ -38,6 +40,13 @@ const Select: React.ForwardRefRenderFunction<SelectRefType, SelectProps> = (prop
       setSelectedLabel("");
     },
   }));
+
+  const optionDisabled = useCallback(
+    (option: OptionType) => {
+      return disabled && disabled(option);
+    },
+    [disabled],
+  );
 
   return (
     <div className={cn(styles.selectWrapper, selectWrapperClassName)}>
@@ -55,6 +64,7 @@ const Select: React.ForwardRefRenderFunction<SelectRefType, SelectProps> = (prop
             label={option.label}
             onClick={handleOptionClick}
             className={optionClassName}
+            disabled={optionDisabled(option)}
           />
         ))}
       </ul>

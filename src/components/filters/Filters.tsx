@@ -1,9 +1,12 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
+import { observer } from "mobx-react-lite";
 
-import Select, { SelectRefType } from "../select/Select";
+import Select, { OptionType, SelectRefType } from "../select/Select";
 import Button from "../button/Button";
 
 import transportationsStore from "../../mobx/transportationsStore";
+
+import { isNumericColumn } from "../../utils/isNumericColumn";
 import { prepareWhere } from "../../utils/prepareWhere";
 
 import styles from "./styles.module.scss";
@@ -66,8 +69,22 @@ const Filters = () => {
   }, []);
 
   const inputType = useMemo(() => {
-    return ["count", "distance"].includes(tableField) ? "number" : "text";
+    return isNumericColumn(tableField) ? "number" : "text";
   }, [tableField]);
+
+  const disablesForTableFieldSelect = useCallback(
+    (option: OptionType) => {
+      return operation === "LIKE" && isNumericColumn(option.value);
+    },
+    [operation],
+  );
+
+  const disablesForOperationSelect = useCallback(
+    (option: OptionType) => {
+      return isNumericColumn(tableField) && option.value === "LIKE";
+    },
+    [tableField],
+  );
 
   return (
     <div className={styles.wrapper}>
@@ -76,6 +93,7 @@ const Filters = () => {
         options={tableFields}
         onChange={handleTableFieldChange}
         selectWrapperClassName={styles.selectFields}
+        disabled={disablesForTableFieldSelect}
       />
       <Select
         ref={operationRef}
@@ -83,6 +101,7 @@ const Filters = () => {
         onChange={handleOperationChange}
         selectWrapperClassName={styles.selectOperations}
         selectLabelClassName={styles.selectOperationsLabel}
+        disabled={disablesForOperationSelect}
       />
       <input type={inputType} value={userValue} onChange={handleChangeUserValue} />
       <Button onClick={handleSearch} disabled={searchButtonDisabled} className={styles.searchBtn}>
@@ -93,4 +112,4 @@ const Filters = () => {
   );
 };
 
-export default Filters;
+export default observer(Filters);
