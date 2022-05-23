@@ -32,6 +32,14 @@ class TransportationStore {
     this.filters.where = where;
   }
 
+  setSort(sortBy: string) {
+    this.filters.sort = sortBy;
+  }
+
+  setOrderBy(orderByASC: boolean) {
+    this.filters.orderby = orderByASC ? "ASC" : "DESC";
+  }
+
   async getList() {
     this.isLoading = true;
     const [data, error] = await TransportationService.getList(this.filters);

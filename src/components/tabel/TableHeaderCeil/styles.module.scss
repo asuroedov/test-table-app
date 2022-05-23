@@ -13,13 +13,12 @@
   }
 }
 
-
-
 .pointerIcon {
   cursor: pointer;
   display: flex;
   flex-shrink: 0;
   margin-left: 10px;
+  transition-duration: 0.2s;
 }
 
 .active {
@@ -27,4 +26,8 @@
 }
 .active line{
   stroke: lightblue;
+}
+
+.rotate {
+  transform: rotate(180deg);
 }

@@ -1,12 +1,12 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
 
 import Select, { SelectRefType } from "../select/Select";
+import Button from "../button/Button";
 
 import transportationsStore from "../../mobx/transportationsStore";
 import { prepareWhere } from "../../utils/prepareWhere";
 
 import styles from "./styles.module.scss";
-import Button from "../button/Button";
 
 const tableFields = [
   { value: "date", label: "Дата" },
@@ -43,6 +43,7 @@ const Filters = () => {
   }, []);
 
   const handleSearch = useCallback(() => {
+    transportationsStore.setPage(1);
     transportationsStore.setWhere(prepareWhere(tableField, operation, userValue));
     transportationsStore.getList();
   }, [tableField, operation, userValue]);
@@ -59,6 +60,7 @@ const Filters = () => {
     tableFieldRef.current?.reset();
     operationRef.current?.reset();
 
+    transportationsStore.setPage(1);
     transportationsStore.setWhere("");
     transportationsStore.getList();
   }, []);
