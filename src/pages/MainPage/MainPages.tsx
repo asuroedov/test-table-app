@@ -11,9 +11,10 @@ import { config } from "../../utils/config";
 import styles from "./styles.module.scss";
 import HeaderLoader from "../../components/headerLoader/HeaderLoader";
 import PreventClick from "../../components/preventClick/PreventClick";
+import Filters from "../../components/filters/Filters";
 
 const MainPage = () => {
-  const { totalCount, paginationPage, isLoading } = transportationsStore;
+  const { totalCount, afterRequestFilters, isLoading } = transportationsStore;
 
   const handlePaginatorChange = useCallback((page: number) => {
     transportationsStore.setPage(page);
@@ -22,11 +23,12 @@ const MainPage = () => {
 
   return (
     <div className={styles.mainPage}>
+      <Filters />
       <TransportationTable />
       <Paginator
         totalCount={totalCount}
         pageSize={config.tableRowsLimit}
-        currentPage={paginationPage}
+        currentPage={afterRequestFilters.page}
         onChange={handlePaginatorChange}
       />
       <HeaderLoader isLoading={isLoading} />

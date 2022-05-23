@@ -1,0 +1,11 @@
+.option {
+  list-style: none;
+  transition-duration: 0.2s;
+  padding: 8px;
+  border-bottom: 1px solid lightgray;
+  cursor: pointer;
+
+  &:hover {
+    background: lightgray;
+  }
+}
