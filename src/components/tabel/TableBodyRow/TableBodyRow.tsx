@@ -1,6 +1,6 @@
 import React, { FC, memo } from "react";
 
-import { formatDate, formatTime } from "../../../utils/formatDate";
+import { formatDate } from "../../../utils/formatDate";
 
 import { TransportationInterface } from "../../../types/Transportation";
 
@@ -12,8 +12,7 @@ const TableBodyRow: FC<TableBodyRowProps> = ({ date, title, count, distance }) =
   return (
     <tr className={styles.tr}>
       <td>
-        <div className={styles.date}>{formatDate(date || "")}</div>
-        <div className={styles.time}>{formatTime(date || "")}</div>
+        <div>{formatDate(date || "")}</div>
       </td>
       <td>
         <div>{title}</div>

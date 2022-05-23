@@ -1,11 +1,12 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 
-import Select from "../select/Select";
+import Select, { SelectRefType } from "../select/Select";
 
 import transportationsStore from "../../mobx/transportationsStore";
 import { prepareWhere } from "../../utils/prepareWhere";
 
 import styles from "./styles.module.scss";
+import Button from "../button/Button";
 
 const tableFields = [
   { value: "date", label: "Дата" },
@@ -25,6 +26,9 @@ const Filters = () => {
   const [tableField, setTableField] = useState("");
   const [operation, setOperation] = useState("");
   const [userValue, setUserValue] = useState("");
+
+  const tableFieldRef = useRef<SelectRefType>(null);
+  const operationRef = useRef<SelectRefType>(null);
 
   const handleTableFieldChange = useCallback((value: string) => {
     setTableField(value);
@@ -48,20 +52,41 @@ const Filters = () => {
     [tableField, operation, userValue],
   );
 
+  const handleResetAndSearch = useCallback(() => {
+    setTableField("");
+    setOperation("");
+    setUserValue("");
+    tableFieldRef.current?.reset();
+    operationRef.current?.reset();
+
+    transportationsStore.setWhere("");
+    transportationsStore.getList();
+  }, []);
+
+  const inputType = useMemo(() => {
+    return ["count", "distance"].includes(tableField) ? "number" : "text";
+  }, [tableField]);
+
   return (
     <div className={styles.wrapper}>
-      <Select options={tableFields} onChange={handleTableFieldChange} selectWrapperClassName={styles.selectFields} />
       <Select
+        ref={tableFieldRef}
+        options={tableFields}
+        onChange={handleTableFieldChange}
+        selectWrapperClassName={styles.selectFields}
+      />
+      <Select
+        ref={operationRef}
         options={operations}
         onChange={handleOperationChange}
         selectWrapperClassName={styles.selectOperations}
         selectLabelClassName={styles.selectOperationsLabel}
       />
-      <input type={"text"} value={userValue} onChange={handleChangeUserValue} />
-      <button onClick={handleSearch} disabled={searchButtonDisabled}>
+      <input type={inputType} value={userValue} onChange={handleChangeUserValue} />
+      <Button onClick={handleSearch} disabled={searchButtonDisabled} className={styles.searchBtn}>
         Найти
-      </button>
-      <button>Сбросить и найти</button>
+      </Button>
+      <Button onClick={handleResetAndSearch}>Сбросить и найти</Button>
     </div>
   );
 };

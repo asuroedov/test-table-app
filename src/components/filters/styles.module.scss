@@ -1,7 +1,6 @@
 .wrapper {
   display: flex;
-  justify-content: flex-end;
-  margin-right: 40px;
+  margin-bottom: 25px;
 }
 
 div.selectFields {
@@ -20,4 +19,8 @@ div.selectOperationsLabel {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.searchBtn {
+  margin: 0 10px;
 }

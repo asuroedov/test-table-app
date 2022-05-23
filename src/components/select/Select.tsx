@@ -1,8 +1,11 @@
-import React, { FC, memo, useCallback, useState } from "react";
+import React, { memo, useCallback, useImperativeHandle, useState } from "react";
 import cn from "classnames";
 
-import styles from "./styles.module.scss";
 import Option from "./option/Option";
+
+import styles from "./styles.module.scss";
+
+export type SelectRefType = { reset: () => void };
 
 interface SelectProps {
   options: { value: string; label: string }[];
@@ -12,13 +15,8 @@ interface SelectProps {
   optionClassName?: string;
 }
 
-const Select: FC<SelectProps> = ({
-  options,
-  onChange,
-  selectWrapperClassName,
-  optionClassName,
-  selectLabelClassName,
-}) => {
+const Select: React.ForwardRefRenderFunction<SelectRefType, SelectProps> = (props, ref) => {
+  const { options, onChange, selectWrapperClassName, optionClassName, selectLabelClassName } = props;
   const [optionsVisible, setOptionsVisible] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState("");
 
@@ -34,6 +32,12 @@ const Select: FC<SelectProps> = ({
     },
     [onChange],
   );
+
+  useImperativeHandle(ref, () => ({
+    reset: () => {
+      setSelectedLabel("");
+    },
+  }));
 
   return (
     <div className={cn(styles.selectWrapper, selectWrapperClassName)}>
@@ -58,4 +62,4 @@ const Select: FC<SelectProps> = ({
   );
 };
 
-export default memo(Select);
+export default memo(React.forwardRef(Select));
