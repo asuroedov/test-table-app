@@ -27,8 +27,9 @@ export async function getTransportations(request: Request, response: Response, n
 export async function addTransportations(request: Request, response: Response, next: NextFunction) {
   try {
     const transportations = request.body as TransportationInterface[];
-    const promises = transportations.map(({ distance, count, title }) => {
-      return db.query(`INSERT INTO transportation (title, count, distance) values ($1, $2, $3)`, [
+    const promises = transportations.map(({ distance, count, title, date }) => {
+      return db.query(`INSERT INTO transportation (date, title, count, distance) values ($1, $2, $3, $4)`, [
+        date,
         title,
         count,
         distance,

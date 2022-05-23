@@ -26,6 +26,10 @@ class TransportationStore {
     this.filters.page = page;
   }
 
+  setWhere(where: string) {
+    this.filters.where = where;
+  }
+
   async getList() {
     this.isLoading = true;
     const [data, error] = await TransportationService.getList(this.filters);

@@ -7,7 +7,7 @@ import styles from "./styles.module.scss";
 
 interface TableHeaderColumnInterface {
   title: string;
-  sortBy: string;
+  sortBy?: string;
   className?: string;
 }
 
@@ -20,7 +20,7 @@ const TableHeaderCeil: FC<TableHeaderColumnInterface> = ({ title, sortBy, classN
     <th className={cn(styles.th, className)} onClick={handleHeaderClick}>
       <div>
         <span className={cn({ [styles.active]: ceilActive })}>{title}</span>
-        <PointerIcon className={cn(styles.pointerIcon, { [styles.active]: ceilActive })} />
+        {sortBy && <PointerIcon className={cn(styles.pointerIcon, { [styles.active]: ceilActive })} />}
       </div>
     </th>
   );
