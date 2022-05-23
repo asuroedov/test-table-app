@@ -8,9 +8,6 @@ const pool = new pg.Pool({
   port: 5432,
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
-  ssl: {
-    rejectUnauthorized: false,
-  },
 });
 
 export async function initializeDB(pool: pg.Pool, queries: string[]) {

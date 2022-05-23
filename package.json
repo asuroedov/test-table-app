@@ -2,6 +2,7 @@
   "name": "test-table-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://asuroedov.github.io/test-table-app/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
@@ -11,6 +12,8 @@
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
     "axios": "^0.27.2",
+    "classnames": "^2.3.1",
+    "concurrently": "^7.2.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
@@ -21,17 +24,17 @@
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-scripts": "5.0.1",
-    "typescript": "^4.6.4",
-    "web-vitals": "^2.1.4",
-    "concurrently": "^7.2.1",
     "ts-node-dev": "^1.1.8",
-    "classnames": "^2.3.1"
+    "typescript": "^4.6.4",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run front\"",
     "front": "react-scripts start",
     "server": "ts-node-dev --respawn --transpile-only server/src/app.ts",
     "build": "react-scripts build",
+    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -62,6 +65,7 @@
   "devDependencies": {
     "@types/pg": "^8.6.5",
     "eslint-plugin-react-hooks": "^4.5.0",
+    "gh-pages": "^4.0.0",
     "prettier": "^2.6.2"
   }
 }
