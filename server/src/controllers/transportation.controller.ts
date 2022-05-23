@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import db from "../db";
-import { TransportationInterface } from "../../types/Transportation";
-import { GetTransportationsQueryInterface } from "../../types/GetTransportationsQuery";
+import { TransportationInterface } from "../types/Transportation";
+import { GetTransportationsQueryInterface } from "../types/GetTransportationsQuery";
 
 export async function getTransportations(request: Request, response: Response, next: NextFunction) {
   try {

@@ -1,0 +1,30 @@
+.th {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+
+  color: #FFFFFF;
+  cursor: pointer;
+
+  & div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+
+
+.pointerIcon {
+  cursor: pointer;
+  display: flex;
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+
+.active {
+  color: lightblue;
+}
+.active line{
+  stroke: lightblue;
+}
