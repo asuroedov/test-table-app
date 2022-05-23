@@ -13,11 +13,12 @@ export async function getTransportations(request: Request, response: Response, n
     const data = await db.query(
       `SELECT * FROM transportation
         ${whereQuery}
-        ORDER BY ${sort} ${orderby} 
-        OFFSET ${limit * (page - 1)} ROWS fetch next ${limit} rows only;`,
+        ORDER BY ${sort} ${orderby};`,
     );
 
-    response.json(data.rows);
+    const startSlice = limit * (page - 1);
+    const endSlice = startSlice + Number(limit);
+    response.json({ totalCount: data.rowCount, rows: data.rows.slice(startSlice, endSlice) });
   } catch (e) {
     next(e);
   }

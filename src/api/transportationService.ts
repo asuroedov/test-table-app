@@ -5,7 +5,9 @@ import { TransportationInterface } from "../types/Transportation";
 
 class TransportationService {
   static async getList(filters: FiltersInterface) {
-    return errorHandler<TransportationInterface[]>(() => $api.get("/transportations", { params: { ...filters } }));
+    return errorHandler<{ totalCount: number; rows: TransportationInterface[] }>(() =>
+      $api.get("/transportations", { params: { ...filters } }),
+    );
   }
 }
 

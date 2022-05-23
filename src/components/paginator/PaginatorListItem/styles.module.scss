@@ -1,0 +1,13 @@
+.progressItem {
+  cursor: pointer;
+  padding: 5px;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  user-select: none;
+}
+
+.active {
+  color: #7EBC3C;
+}

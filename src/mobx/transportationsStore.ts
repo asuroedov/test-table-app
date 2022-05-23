@@ -1,12 +1,17 @@
 import { makeAutoObservable } from "mobx";
 import TransportationService from "../api/transportationService";
+import { config } from "../utils/config";
 import { TransportationInterface } from "../types/Transportation";
 import { FiltersInterface } from "../types/FiltersInterface";
 
 class TransportationStore {
   transportations: TransportationInterface[] = [];
+  totalCount: number = 0;
+  isLoading: boolean = false;
+  paginationPage: number = 1;
+
   filters: FiltersInterface = {
-    limit: 10,
+    limit: config.tableRowsLimit,
     orderby: "ASC",
     page: 1,
     sort: "id",
@@ -17,11 +22,23 @@ class TransportationStore {
     makeAutoObservable(this);
   }
 
-  async getList() {
-    const [list, error] = await TransportationService.getList(this.filters);
-    if (!list || error) return console.log(error);
+  setPage(page: number) {
+    this.filters.page = page;
+  }
 
-    this.transportations = list;
+  async getList() {
+    this.isLoading = true;
+    const [data, error] = await TransportationService.getList(this.filters);
+    this.isLoading = false;
+    if (!data || error) {
+      this.filters.page = this.paginationPage;
+      console.log(error);
+      return;
+    }
+
+    this.transportations = data.rows;
+    this.totalCount = data.totalCount;
+    this.paginationPage = this.filters.page;
   }
 }
 

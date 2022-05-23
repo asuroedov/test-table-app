@@ -1,0 +1,13 @@
+.paginatorButton {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 33px;
+  color: #474955;
+  cursor: pointer;
+  user-select: none;
+}
+
+.disabled {
+  color: red;
+  cursor: not-allowed;
+}
