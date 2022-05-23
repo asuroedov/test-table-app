@@ -1,8 +1,11 @@
-import React, { FC, memo } from "react";
+import React, { FC, useEffect } from "react";
+import { observer } from "mobx-react-lite";
 import cn from "classnames";
 
 import TableHeader from "./TableHeader/TableHeader";
 import TableBody from "./TableBody/TableBody";
+
+import transportationsStore from "../../mobx/transportationsStore";
 
 import styles from "./styles.module.scss";
 
@@ -12,6 +15,10 @@ interface PostTableInterface {
 }
 
 const TransportationTable: FC<PostTableInterface> = ({ className, countRowsOnPage = 10 }) => {
+  useEffect(() => {
+    transportationsStore.getList();
+  }, []);
+
   return (
     <table className={cn(styles.table, className)}>
       <TableHeader />
@@ -20,4 +27,4 @@ const TransportationTable: FC<PostTableInterface> = ({ className, countRowsOnPag
   );
 };
 
-export default memo(TransportationTable);
+export default observer(TransportationTable);

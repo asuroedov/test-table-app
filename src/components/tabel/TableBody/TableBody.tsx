@@ -1,9 +1,10 @@
-import React, { FC, memo } from "react";
+import React, { FC } from "react";
+import { observer } from "mobx-react-lite";
 
 import TableBodyRow from "../TableBodyRow/TableBodyRow";
 import CreateEmptyRows from "../../../utils/createEmptyRows";
 
-import { mockData } from "../mock";
+import transportationsStore from "../../../mobx/transportationsStore";
 
 import styles from "./styles.module.scss";
 
@@ -12,7 +13,7 @@ interface TableBodyProps {
 }
 
 const TableBody: FC<TableBodyProps> = ({ countRowsOnPage }) => {
-  const transportations = mockData;
+  const transportations = transportationsStore.transportations;
 
   return (
     <tbody className={styles.tBody}>
@@ -24,4 +25,4 @@ const TableBody: FC<TableBodyProps> = ({ countRowsOnPage }) => {
   );
 };
 
-export default memo(TableBody);
+export default observer(TableBody);
