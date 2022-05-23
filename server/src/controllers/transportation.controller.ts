@@ -9,7 +9,6 @@ export async function getTransportations(request: Request, response: Response, n
     const { limit = 10, page = 1, sort = "id", orderby = "ASC", where = "" } = query;
 
     const whereQuery = where ? `WHERE ${where}` : "";
-    console.log(whereQuery);
 
     const data = await db.query(
       `SELECT * FROM transportation

@@ -74,14 +74,14 @@ const Filters = () => {
 
   const disablesForTableFieldSelect = useCallback(
     (option: OptionType) => {
-      return operation === "LIKE" && isNumericColumn(option.value);
+      return operation === "LIKE" && (isNumericColumn(option.value) || option.value === "date");
     },
     [operation],
   );
 
   const disablesForOperationSelect = useCallback(
     (option: OptionType) => {
-      return isNumericColumn(tableField) && option.value === "LIKE";
+      return (isNumericColumn(tableField) || tableField === "date") && option.value === "LIKE";
     },
     [tableField],
   );
